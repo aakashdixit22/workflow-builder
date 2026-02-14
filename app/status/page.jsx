@@ -183,7 +183,7 @@ export default function Status() {
                 </p>
               </div>
               <p className="text-sm text-gray-600 mt-2">
-                Google Gemini Pro
+                Google Gemini 2.5 Flash
               </p>
             </div>
           </div>
