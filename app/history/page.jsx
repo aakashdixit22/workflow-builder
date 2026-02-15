@@ -54,19 +54,19 @@ export default function History() {
   };
 
   return (
-    <div className="px-4 py-8">
-      <div className="mb-8">
-        <div className="flex justify-between items-center">
+    <div className="px-2 sm:px-4 py-4 sm:py-8">
+      <div className="mb-6 sm:mb-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">Run History</h1>
-            <p className="text-lg text-gray-600">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-1 sm:mb-2">Run History</h1>
+            <p className="text-base sm:text-lg text-gray-600">
               View your recent workflow executions
             </p>
           </div>
           <button
             onClick={fetchHistory}
             disabled={loading}
-            className="bg-primary-500 hover:bg-primary-600 disabled:bg-gray-400 text-white px-6 py-3 rounded-lg font-medium transition"
+            className="w-full sm:w-auto bg-primary-500 hover:bg-primary-600 disabled:bg-gray-400 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition text-sm sm:text-base"
           >
             {loading ? 'Loading...' : '🔄 Refresh'}
           </button>
@@ -74,51 +74,51 @@ export default function History() {
       </div>
 
       {loading && history.length === 0 ? (
-        <div className="bg-white rounded-lg shadow-md p-8 text-center">
+        <div className="bg-white rounded-lg shadow-md p-6 sm:p-8 text-center">
           <div className="animate-pulse">
-            <div className="h-8 bg-gray-200 rounded w-1/4 mx-auto mb-4"></div>
+            <div className="h-6 sm:h-8 bg-gray-200 rounded w-1/4 mx-auto mb-4"></div>
             <div className="h-4 bg-gray-200 rounded w-1/2 mx-auto"></div>
           </div>
         </div>
       ) : history.length === 0 ? (
-        <div className="bg-white rounded-lg shadow-md p-8 text-center">
-          <p className="text-gray-500 text-lg">
+        <div className="bg-white rounded-lg shadow-md p-6 sm:p-8 text-center">
+          <p className="text-gray-500 text-base sm:text-lg">
             No workflow runs yet. Run a workflow to see history here!
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
           {/* History List */}
           <div>
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4">
                 Recent Runs ({history.length})
               </h2>
-              <div className="space-y-3">
+              <div className="space-y-2 sm:space-y-3">
                 {history.map((run) => (
                   <div
                     key={run._id}
                     onClick={() => setSelectedRun(run)}
-                    className={`p-4 border-2 rounded-lg cursor-pointer transition ${
+                    className={`p-3 sm:p-4 border-2 rounded-lg cursor-pointer transition ${
                       selectedRun?._id === run._id
                         ? 'border-primary-500 bg-primary-50'
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
                   >
-                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="font-semibold text-gray-900">
+                    <div className="flex flex-col sm:flex-row justify-between items-start gap-2 mb-2">
+                      <h3 className="font-semibold text-gray-900 text-sm sm:text-base break-words">
                         {run.workflowName || 'Unnamed Workflow'}
                       </h3>
                       {getStatusBadge(run.status)}
                     </div>
-                    <p className="text-sm text-gray-600 mb-2">
+                    <p className="text-xs sm:text-sm text-gray-600 mb-2">
                       {formatDate(run.createdAt)}
                     </p>
                     <div className="flex flex-wrap gap-1">
                       {run.steps?.map((step, index) => (
                         <span
                           key={index}
-                          className="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded"
+                          className="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded whitespace-nowrap"
                         >
                           {STEP_TYPES[step.type] || step.type}
                         </span>
@@ -133,61 +133,61 @@ export default function History() {
           {/* Run Details */}
           <div>
             {!selectedRun ? (
-              <div className="bg-white rounded-lg shadow-md p-8 text-center">
-                <p className="text-gray-500">
+              <div className="bg-white rounded-lg shadow-md p-6 sm:p-8 text-center">
+                <p className="text-gray-500 text-sm sm:text-base">
                   Select a run from the left to view details
                 </p>
               </div>
             ) : (
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <div className="mb-6">
-                  <div className="flex justify-between items-start mb-4">
-                    <h2 className="text-2xl font-bold text-gray-800">
+              <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
+                <div className="mb-4 sm:mb-6">
+                  <div className="flex flex-col sm:flex-row justify-between items-start gap-2 sm:gap-0 mb-3 sm:mb-4">
+                    <h2 className="text-xl sm:text-2xl font-bold text-gray-800 break-words">
                       {selectedRun.workflowName || 'Unnamed Workflow'}
                     </h2>
                     {getStatusBadge(selectedRun.status)}
                   </div>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-xs sm:text-sm text-gray-600">
                     Executed: {formatDate(selectedRun.createdAt)}
                   </p>
                 </div>
 
-                <div className="mb-6">
-                  <h3 className="font-semibold text-gray-900 mb-2">Input Text:</h3>
-                  <div className="bg-gray-50 p-3 rounded text-sm text-gray-700 max-h-32 overflow-y-auto">
+                <div className="mb-4 sm:mb-6">
+                  <h3 className="font-semibold text-gray-900 mb-2 text-sm sm:text-base">Input Text:</h3>
+                  <div className="bg-gray-50 p-3 rounded text-xs sm:text-sm text-gray-700 max-h-32 overflow-y-auto break-words">
                     {selectedRun.inputText}
                   </div>
                 </div>
 
                 {selectedRun.status === 'failed' && selectedRun.error && (
-                  <div className="mb-6 bg-red-50 border border-red-200 p-4 rounded">
-                    <h3 className="font-semibold text-red-900 mb-2">Error:</h3>
-                    <p className="text-sm text-red-700">{selectedRun.error}</p>
+                  <div className="mb-4 sm:mb-6 bg-red-50 border border-red-200 p-3 sm:p-4 rounded">
+                    <h3 className="font-semibold text-red-900 mb-2 text-sm sm:text-base">Error:</h3>
+                    <p className="text-xs sm:text-sm text-red-700 break-words">{selectedRun.error}</p>
                   </div>
                 )}
 
                 {selectedRun.results && selectedRun.results.length > 0 && (
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-3">
+                    <h3 className="font-semibold text-gray-900 mb-3 text-sm sm:text-base">
                       Step Results:
                     </h3>
-                    <div className="space-y-4">
+                    <div className="space-y-3 sm:space-y-4">
                       {selectedRun.results.map((result, index) => (
                         <div
                           key={index}
-                          className="border border-gray-200 rounded-lg p-4"
+                          className="border border-gray-200 rounded-lg p-3 sm:p-4"
                         >
-                          <div className="flex items-center mb-2">
-                            <span className="bg-primary-500 text-white text-xs px-2 py-1 rounded mr-2">
+                          <div className="flex flex-wrap items-center gap-2 mb-2">
+                            <span className="bg-primary-500 text-white text-xs px-2 py-1 rounded">
                               Step {index + 1}
                             </span>
-                            <span className="font-medium text-gray-900">
+                            <span className="font-medium text-gray-900 text-sm sm:text-base">
                               {STEP_TYPES[result.step] || result.step}
                             </span>
                           </div>
                           <div className="bg-gray-50 p-3 rounded">
                             <p className="text-xs text-gray-500 mb-1">Output:</p>
-                            <p className="text-sm text-gray-700 whitespace-pre-wrap">
+                            <p className="text-xs sm:text-sm text-gray-700 whitespace-pre-wrap break-words overflow-x-auto">
                               {result.output}
                             </p>
                           </div>
